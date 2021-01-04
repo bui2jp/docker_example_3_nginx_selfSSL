@@ -1,4 +1,4 @@
-# OpenSSLを使って証明書の作成
+# OpenSSL(LibreSSL)を使って証明書の作成
 
 ```
 % openssl version 
@@ -57,6 +57,11 @@ default_bits		= 2048
 ```
 % openssl req -new -keyout newkey2048_sha256.pem -out newreq2048_sha256.csr
 ```
+## 秘密鍵からパスコードを除く
+Webサーバー(nginx)に設定するのはこのパスコードを除いた秘密鍵
+```
+% openssl rsa -in newkey2048_sha256.pem -out newkey2048_sha256_wo_pass.pem
+```
 
 ## [作成] サーバー証明書
 認証局側でサーバー証明書署名要求(CSR)に対し署名
@@ -69,12 +74,6 @@ default_bits		= 2048
 
 ```
 % openssl ca -policy policy_anything -out ../myServerCert/newcert2048_sha256.crt -days 365 -infiles ../myServerCert/newreq2048_sha256.csr
-```
-
-## 秘密鍵からパスコードを除く
-Webサーバー(nginx)に設定するのはこのパスコードを除いた秘密鍵
-```
-% openssl rsa -in newkey2048_sha256.pem -out newkey2048_sha256_wo_pass.pem
 ```
 
 # 3.クライアント証明書の作成
@@ -139,7 +138,7 @@ ADD default.conf /etc/nginx/conf.d/default.conf
 
 #ssl for server certification
 ADD self-ssl-cert/myServerCert/newcert2048_sha256.crt /etc/nginx/ssl/server.crt
-ADD self-ssl-cert/myServerCert/newkey2048_sha256.pem /etc/nginx/ssl/server.key
+ADD self-ssl-cert/myServerCert/newkey2048_sha256_wo_pass.pem /etc/nginx/ssl/server.key
 
 #ssl for client certification
 ADD self-ssl-cert/myCA/demoCA/cacert.pem /etc/nginx/ssl/ca.crt
