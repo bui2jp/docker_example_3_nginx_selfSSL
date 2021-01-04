@@ -1,7 +1,8 @@
-# Docker Nginx WEBAPI(node)
+# Self SSL - Nginx - Docker 
 
-docker,docker-composeを使って簡単なWEB環境を作成
-Nginxでssl offloadingをおこなう（自己証明書）
+Nginxでssl offloadingをおこなう（自己証明書でサーバー証明書とクライアント証明書）  
+
+docker,docker-composeを使ったWEB環境
 
 ```
 % docker -v 
