@@ -1,0 +1,15 @@
+version: '3'
+services:
+  nginx_web:
+    build: ./nginx_web
+    ports:
+     - "80:8081"
+     - "443:443"     
+#  frontend:
+#    build: ./vue-sb-admin2
+#    ports:
+#     - "8080:8080"
+  backend:
+    build: ./api-server
+#    ports:
+#     - "8081:8081"
