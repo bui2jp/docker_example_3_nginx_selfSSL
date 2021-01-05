@@ -12,6 +12,7 @@ LibreSSL 2.8.3
 |  認証局CA  |  myCA  |
 |  サーバー証明書  |  myServerCert  |
 |  クライアント証明書  |  myClietCert  |
+
 それぞれの作業用のDirectory  
 
 # 1. 認証局(demoCA)の作成
