@@ -1,14 +1,22 @@
 # OpenSSL(LibreSSL)を使って証明書の作成
+注意:macOS Catalina (10.15.7)で作業しています。  
 
+OpenSSLのバージョン確認
 ```
 % openssl version 
 LibreSSL 2.8.3
 ```
 
-# 1. 認証局(CA)の作成
+|  役割  |  作業Directory  |
+| ---- | ---- |
+|  認証局CA  |  myCA  |
+|  サーバー証明書  |  myServerCert  |
+|  クライアント証明書  |  myClietCert  |
+それぞれの作業用のDirectory  
 
-## [CA] opensslのシェル(CA.sh)を使って作成する
+# 1. 認証局(demoCA)の作成
 
+## [CA] OpenSSLの設定
 ```
 CA作成用の設定フィアル
 % cp /System/Library/OpenSSL/misc/CA.sh ./
@@ -23,7 +31,11 @@ default_md	= sha256
 default_bits		= 2048
 
 % export OPENSSL_CONF=$PWD/openssl_ca.cnf
+```
 
+## [CA] 認証局の作成
+opensslのシェル(CA.sh)を使ってする
+```
 % ./CA.sh -newca
 ```
 commonNameは必須
