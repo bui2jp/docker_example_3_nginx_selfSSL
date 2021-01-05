@@ -6,7 +6,8 @@ LibreSSL 2.8.3
 ```
 
 # 1. 認証局(CA)の作成
-opensslのシェル(CA.sh)を使って作成する
+
+## [CA] opensslのシェル(CA.sh)を使って作成する
 
 ```
 % cp /System/Library/OpenSSL/misc/CA.sh ./
@@ -14,7 +15,9 @@ opensslのシェル(CA.sh)を使って作成する
 
 CA作成用の設定フィアル
 % cp /System/Library/OpenSSL/openssl.cnf ./openssl_ca.cnf
+[ usr_cert ]
  basicConstraints=CA:TRUE に変更
+
 (option)
 [CA_default]セクションのmdをsha256にする
 default_md	= sha256
@@ -35,9 +38,11 @@ nginx_web/self-ssl-cert/myServerCert
 ```
 
 ```
-% cp /System/Library/OpenSSL/openssl.cnf ./
+% cp /System/Library/OpenSSL/openssl.cnf ./openssl_server.cnf
 (確認)
+[ usr_cert ]
 basicConstraints = CA:FALSE
+nsCertType =  server
 
 (option)
 [CA_default]セクションのmdをsha256にする
@@ -50,21 +55,20 @@ default_bits		= 2048
 % export OPENSSL_CONF=$PWD/openssl.cnf
 ```
 
-
-## [作成] 秘密鍵と証明書署名要求
+## [Server] 秘密鍵と証明書署名要求を作成
 秘密鍵(Key)  
 証明書署名要求(CSR:Certificate Signing Request)
 ```
 % openssl req -new -keyout newkey2048_sha256.pem -out newreq2048_sha256.csr
 ```
-## 秘密鍵からパスコードを除く
+## [Server] 秘密鍵からパスコードを除く
 Webサーバー(nginx)に設定するのはこのパスコードを除いた秘密鍵
 ```
 % openssl rsa -in newkey2048_sha256.pem -out newkey2048_sha256_wo_pass.pem
 ```
 
-## [作成] サーバー証明書
-認証局側でサーバー証明書署名要求(CSR)に対し署名
+## [CA] サーバー証明書署名要求(CSR)に対し署名
+認証局側でサーバー証明書署名要求(CSR)に対し署名してサーバー証明書を作成
 ```
 % cd ../myCA
 % export OPENSSL_CONF=$PWD/openssl.cnf
@@ -77,6 +81,8 @@ Webサーバー(nginx)に設定するのはこのパスコードを除いた秘�
 ```
 
 # 3.クライアント証明書の作成
+
+## [Client] 秘密鍵とCSR (クライアント用)を作成
 ```
 % mkdir myClientCert
 % pwd 
@@ -84,9 +90,10 @@ Webサーバー(nginx)に設定するのはこのパスコードを除いた秘�
 ```
 
 ```
-% cp /System/Library/OpenSSL/openssl.cnf ./
+% cp /System/Library/OpenSSL/openssl.cnf ./openssl_client.cnf
 (確認)
 basicConstraints = CA:FALSE
+nsCertType =  client, email, objsign
 
 (option)
 [CA_default]セクションのmdをsha256にする
@@ -96,15 +103,14 @@ default_bits		= 2048
 ```
 
 ```
-export OPENSSL_CONF=$PWD/openssl.cnf
+export OPENSSL_CONF=$PWD/openssl_client.cnf
 ```
 
-## [作成] 秘密鍵とCSR (クライアント用)
 ```
 $ openssl req -new -keyout cli.newkey2048_sha256.pem -out cli.newreq2048_sha256.csr
 ```
 
-認証局側にて、クライアント証明書署名要求CSRに対し署名を行い、クライアント証明書を作成
+## [CA]クライアント証明書署名要求CSRに対し署名を行い、クライアント証明書を作成
 ```
 % cd ../myCA
 export OPENSSL_CONF=$PWD/openssl.cnf
