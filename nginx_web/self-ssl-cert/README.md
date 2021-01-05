@@ -1,5 +1,5 @@
 # OpenSSL(LibreSSL)を使って証明書の作成
-注意:macOS Catalina (10.15.7)で作業しています。  
+注意: macOS Catalina (10.15.7)で作業しています。  
 
 OpenSSLのバージョン確認
 ```
@@ -82,7 +82,7 @@ Webサーバー(nginx)に設定するのはこのパスコードを除いた秘�
 % openssl rsa -in newkey2048_sha256.pem -out newkey2048_sha256_wo_pass.pem
 ```
 
-## [CA] サーバー証明書署名要求(CSR)に対し署名
+## [CA] サーバー証明書を作成
 認証局側でサーバー証明書署名要求(CSR)に対し署名してサーバー証明書を作成
 ```
 % cd ../myCA
@@ -125,7 +125,8 @@ export OPENSSL_CONF=$PWD/openssl_client.cnf
 $ openssl req -new -keyout cli.newkey2048_sha256.pem -out cli.newreq2048_sha256.csr
 ```
 
-## [CA] クライアント証明書署名要求CSRに対し署名を行い、クライアント証明書を作成
+## [CA] クライアント証明書を作成
+クライアント証明書署名要求CSRに対し署名を行い、クライアント証明書を作成
 ```
 % cd ../myCA
 export OPENSSL_CONF=$PWD/openssl.cnf
