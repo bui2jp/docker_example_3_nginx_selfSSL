@@ -10,10 +10,8 @@ LibreSSL 2.8.3
 ## [CA] opensslのシェル(CA.sh)を使って作成する
 
 ```
-% cp /System/Library/OpenSSL/misc/CA.sh ./
-% cp /System/Library/OpenSSL/openssl.cnf ./openssl.cnf
-
 CA作成用の設定フィアル
+% cp /System/Library/OpenSSL/misc/CA.sh ./
 % cp /System/Library/OpenSSL/openssl.cnf ./openssl_ca.cnf
 [ usr_cert ]
  basicConstraints=CA:TRUE に変更
@@ -30,14 +28,18 @@ default_bits		= 2048
 ```
 commonNameは必須
 
+
+## [CA] サーバー/クライアント証明書への署名用
+```
+% cp /System/Library/OpenSSL/openssl.cnf ./openssl.cnf
+```
+
 # 2. サーバー証明書の作成
 
+## [Server] OpenSSLの設定
 ```
 % cd
 nginx_web/self-ssl-cert/myServerCert
-```
-
-```
 % cp /System/Library/OpenSSL/openssl.cnf ./openssl_server.cnf
 (確認)
 [ usr_cert ]
@@ -52,7 +54,7 @@ default_bits		= 2048
 ```
 
 ```
-% export OPENSSL_CONF=$PWD/openssl.cnf
+% export OPENSSL_CONF=$PWD/openssl_server.cnf
 ```
 
 ## [Server] 秘密鍵と証明書署名要求を作成
@@ -82,7 +84,7 @@ Webサーバー(nginx)に設定するのはこのパスコードを除いた秘�
 
 # 3.クライアント証明書の作成
 
-## [Client] 秘密鍵とCSR (クライアント用)を作成
+## [Client] OpenSSLの設定
 ```
 % mkdir myClientCert
 % pwd 
@@ -105,12 +107,12 @@ default_bits		= 2048
 ```
 export OPENSSL_CONF=$PWD/openssl_client.cnf
 ```
-
+## [Client] 秘密鍵とCSR (クライアント用)を作成
 ```
 $ openssl req -new -keyout cli.newkey2048_sha256.pem -out cli.newreq2048_sha256.csr
 ```
 
-## [CA]クライアント証明書署名要求CSRに対し署名を行い、クライアント証明書を作成
+## [CA] クライアント証明書署名要求CSRに対し署名を行い、クライアント証明書を作成
 ```
 % cd ../myCA
 export OPENSSL_CONF=$PWD/openssl.cnf
@@ -120,7 +122,7 @@ export OPENSSL_CONF=$PWD/openssl.cnf
 openssl ca -policy policy_anything -out ../myClientCert/cli.newcert2048_sha256.crt -days 365 -infiles ../myClientCert/cli.newreq2048_sha256.csr
 ```
 
-## [作成] PKCS#12
+## [Client] PKCS#12 作成
 クライアント証明書とクライアント秘密鍵を格納したPKCS#12形式のファイルを作成  
 ※ クライアントに設定する (Macの場合はキーチェーンアクセス)  
 ※ -nameオプションで指定しているのはフレンドリー名
