@@ -1,4 +1,4 @@
-# OpenSSL(LibreSSL)を使って証明書の作成
+# OpenSSL(LibreSSL)を使って自己証明書の作成
 注意: macOS Catalina (10.15.7)で作業しています。  
 
 OpenSSLのバージョン確認
