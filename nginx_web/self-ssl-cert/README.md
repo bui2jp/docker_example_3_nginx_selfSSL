@@ -17,28 +17,7 @@ LibreSSL 2.8.3
 
 # 1. 認証局(demoCA)の作成
 
-認証局の秘密鍵 / CSR / ルート証明書の作成
-
-```
-$ ls -tlr demoCA/
-total 40
--rw-r--r--  1 takuya  staff     0  6 16 15:09 index.txt.old
-drwxr-xr-x  2 takuya  staff    68  6 16 15:09 crl
-drwxr-xr-x  2 takuya  staff    68  6 16 15:09 certs
-drwxr-xr-x  3 takuya  staff   102  6 16 15:09 private
--rw-r--r--  1 takuya  staff   643  6 16 15:10 careq.pem <== 認証局の証明書署名要求
--rw-r--r--  1 takuya  staff    17  6 16 15:10 serial
-drwxr-xr-x  3 takuya  staff   102  6 16 15:10 newcerts
--rw-r--r--  1 takuya  staff    21  6 16 15:10 index.txt.attr
--rw-r--r--  1 takuya  staff    86  6 16 15:10 index.txt
--rw-r--r--  1 takuya  staff  3166  6 16 15:10 cacert.pem <== 認証局の証明書（＝ルート証明書）
-```
-
-```
-$ ls -tlr demoCA/private/
-total 8
--rw-r--r--  1 takuya  staff  1054  6 16 15:10 cakey.pem  <== 認証局の秘密鍵
-```
+認証局の秘密鍵 / CSR / ルート証明書の作成 の３つを作成します。
 
 ## [CA] OpenSSLの設定
 ```
@@ -63,6 +42,28 @@ opensslのシェル(CA.sh)を使ってする
 % ./CA.sh -newca
 ```
 commonNameは必須
+
+## 認証局の秘密鍵 / CSR / ルート証明書の作成 の３つができました。
+```
+$ ls -tlr demoCA/
+total 40
+-rw-r--r--  1 takuya  staff     0  6 16 15:09 index.txt.old
+drwxr-xr-x  2 takuya  staff    68  6 16 15:09 crl
+drwxr-xr-x  2 takuya  staff    68  6 16 15:09 certs
+drwxr-xr-x  3 takuya  staff   102  6 16 15:09 private
+-rw-r--r--  1 takuya  staff   643  6 16 15:10 careq.pem <== 認証局の証明書署名要求
+-rw-r--r--  1 takuya  staff    17  6 16 15:10 serial
+drwxr-xr-x  3 takuya  staff   102  6 16 15:10 newcerts
+-rw-r--r--  1 takuya  staff    21  6 16 15:10 index.txt.attr
+-rw-r--r--  1 takuya  staff    86  6 16 15:10 index.txt
+-rw-r--r--  1 takuya  staff  3166  6 16 15:10 cacert.pem <== 認証局の証明書（＝ルート証明書）
+```
+
+```
+$ ls -tlr demoCA/private/
+total 8
+-rw-r--r--  1 takuya  staff  1054  6 16 15:10 cakey.pem  <== 認証局の秘密鍵
+```
 
 
 ## [CA] サーバー/クライアント証明書への署名用
