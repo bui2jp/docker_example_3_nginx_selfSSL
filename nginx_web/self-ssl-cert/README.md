@@ -24,8 +24,8 @@ LibreSSL 2.8.3
 CA作成用の設定フィアル
 % cp /System/Library/OpenSSL/misc/CA.sh ./
 % cp /System/Library/OpenSSL/openssl.cnf ./openssl_ca.cnf
-[ usr_cert ]
- basicConstraints=CA:TRUE に変更
+[ v3_ca ]
+ basicConstraints=CA:true になっていることを確認
 
 (option)
 [CA_default]セクションのmdをsha256にする
